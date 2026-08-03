@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+    <!-- Application category so the groups are shown under a Video Club section -->
+    <record id="module_category_videoclub" model="ir.module.category">
+      <field name="name">Video Club</field>
+      <field name="description">Video club roles: client and manager.</field>
+      <field name="sequence">10</field>
+    </record>
+
+    <!-- Client role: browse the catalog and rent/return its own movies. -->
+    <record id="group_videoclub_client" model="res.groups">
+      <field name="name">Client</field>
+      <field name="category_id" ref="module_category_videoclub"/>
+      <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+      <field name="comment">Can browse the catalog and rent/return his own movies.</field>
+    </record>
+
+    <!-- Manager role: full management of the video club. It implies the client role. -->
+    <record id="group_videoclub_manager" model="res.groups">
+      <field name="name">Manager</field>
+      <field name="category_id" ref="module_category_videoclub"/>
+      <field name="implied_ids" eval="[(4, ref('group_videoclub_client'))]"/>
+      <field name="comment">Full management of movies, tapes, directors and all rentals.</field>
+    </record>
+
+    <!-- Record rule: a client only sees and manages his own rentals. -->
+    <record id="rule_videoclub_rental_client" model="ir.rule">
+      <field name="name">Client: own rentals only</field>
+      <field name="model_id" ref="model_videoclub_rental"/>
+      <field name="groups" eval="[(4, ref('group_videoclub_client'))]"/>
+      <field name="domain_force">[('customer_id', '=', user.partner_id.id)]</field>
+    </record>
+
+    <!-- Record rule: a manager sees all rentals (overrides the client rule). -->
+    <record id="rule_videoclub_rental_manager" model="ir.rule">
+      <field name="name">Manager: all rentals</field>
+      <field name="model_id" ref="model_videoclub_rental"/>
+      <field name="groups" eval="[(4, ref('group_videoclub_manager'))]"/>
+      <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <!-- The default Odoo administrator gets the manager role. -->
+    <record id="base.user_admin" model="res.users">
+      <field name="groups_id" eval="[(4, ref('group_videoclub_manager'))]"/>
+    </record>
+
+  </data>
+</odoo>

@@ -1,0 +1,203 @@
+<odoo>
+  <data>
+
+    <!-- ========================================================= -->
+    <!-- ACTIONS                                                  -->
+    <!-- ========================================================= -->
+
+    <record id="action_videoclub_movie" model="ir.actions.act_window">
+      <field name="name">Movies</field>
+      <field name="res_model">videoclub.movie</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_videoclub_tape" model="ir.actions.act_window">
+      <field name="name">Tapes</field>
+      <field name="res_model">videoclub.tape</field>
+      <field name="view_mode">tree,form</field>
+      <field name="context">{'group_by': 'movie_id'}</field>
+    </record>
+
+    <record id="action_videoclub_director" model="ir.actions.act_window">
+      <field name="name">Directors</field>
+      <field name="res_model">videoclub.director</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_videoclub_movie_wizard" model="ir.actions.act_window">
+      <field name="name">Find movies by genres</field>
+      <field name="res_model">videoclub.movie_wizard</field>
+      <field name="view_mode">form</field>
+      <field name="target">new</field>
+    </record>
+
+    <!-- ========================================================= -->
+    <!-- MOVIE SEARCH WIZARD VIEW                                  -->
+    <!-- ========================================================= -->
+
+    <record id="videoclub_movie_wizard_form" model="ir.ui.view">
+      <field name="name">videoclub_movie_wizard_form</field>
+      <field name="model">videoclub.movie_wizard</field>
+      <field name="arch" type="xml">
+        <form string="Find movies by genres">
+          <group>
+            <field name="genre_ids" widget="many2many_tags"/>
+          </group>
+          <footer>
+            <button name="action_search" string="Search" type="object" class="oe_highlight"/>
+            <button string="Cancel" type="object" special="cancel" class="oe_button"/>
+          </footer>
+        </form>
+      </field>
+    </record>
+
+    <!-- ========================================================= -->
+    <!-- MOVIE VIEWS                                              -->
+    <!-- ========================================================= -->
+
+    <record id="videoclub_movie_tree" model="ir.ui.view">
+      <field name="name">videoclub_movie_tree</field>
+      <field name="model">videoclub.movie</field>
+      <field name="arch" type="xml">
+      <tree string="Movies">
+          <field name="name"/>
+          <field name="director_id"/>
+          <field name="num_available"/>
+          <field name="availability_date"/>
+          <field name="rent_state" widget="badge"/>
+          <button name="action_manage" string="Gestionar" type="object"
+                  icon="fa-hand-o-right"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="videoclub_movie_form" model="ir.ui.view">
+      <field name="name">videoclub_movie_form</field>
+      <field name="model">videoclub.movie</field>
+      <field name="arch" type="xml">
+        <form>
+          <header>
+            <button name="action_manage" string="Gestionar" type="object"
+                    class="btn-primary"/>
+          </header>
+          <sheet>
+            <group>
+              <group>
+                <field name="name"/>
+                <field name="director_id"/>
+              </group>
+              <group>
+                <field name="num_tapes"/>
+                <field name="num_available"/>
+                <field name="availability_date"/>
+                <field name="rent_state"/>
+              </group>
+            </group>
+            <group>
+              <field name="genre_ids" widget="many2many_tags"/>
+              <field name="tapes_ids"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- ========================================================= -->
+    <!-- TAPE VIEWS                                               -->
+    <!-- ========================================================= -->
+
+    <record id="videoclub_tape_tree" model="ir.ui.view">
+      <field name="name">videoclub_tape_tree</field>
+      <field name="model">videoclub.tape</field>
+      <field name="arch" type="xml">
+        <tree editable="bottom">
+          <field name="movie_id"/>
+          <field name="state"/>
+          <field name="expected_return_date" optional="show"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="videoclub_tape_form" model="ir.ui.view">
+      <field name="name">videoclub_tape_form</field>
+      <field name="model">videoclub.tape</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <group>
+                <field name="movie_id"/>
+                <field name="state"/>
+                <field name="expected_return_date"/>
+              </group>
+            </group>
+            <notebook>
+              <page string="Rental history" name="rentals">
+                <field name="rental_ids"/>
+              </page>
+            </notebook>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- ========================================================= -->
+    <!-- DIRECTOR VIEWS                                           -->
+    <!-- ========================================================= -->
+
+    <record id="videoclub_director_tree" model="ir.ui.view">
+      <field name="name">videoclub_director_tree</field>
+      <field name="model">videoclub.director</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="nationality"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="videoclub_director_form" model="ir.ui.view">
+      <field name="name">videoclub_director_form</field>
+      <field name="model">videoclub.director</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <group>
+                <field name="name"/>
+                <field name="nationality"/>
+              </group>
+              <group>
+                <field name="movie_ids"/>
+              </group>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- ========================================================= -->
+    <!-- MENU                                                     -->
+    <!-- ========================================================= -->
+
+    <menuitem id="menu_videoclub_root" name="Video Club" sequence="10"
+              groups="videoclub.group_videoclub_client,videoclub.group_videoclub_manager"/>
+
+    <menuitem id="menu_videoclub_movie" name="Movies" parent="menu_videoclub_root"
+              action="action_videoclub_movie" sequence="10"
+              groups="videoclub.group_videoclub_client,videoclub.group_videoclub_manager"/>
+
+    <menuitem id="menu_videoclub_tape" name="Tapes" parent="menu_videoclub_root"
+              action="action_videoclub_tape" sequence="20"
+              groups="videoclub.group_videoclub_client,videoclub.group_videoclub_manager"/>
+
+    <menuitem id="menu_videoclub_director" name="Directors" parent="menu_videoclub_root"
+              action="action_videoclub_director" sequence="30"
+              groups="videoclub.group_videoclub_manager"/>
+
+    <menuitem id="menu_videoclub_movie_wizard" name="Find movie by genres"
+              parent="menu_videoclub_root" action="action_videoclub_movie_wizard" sequence="40"
+              groups="videoclub.group_videoclub_client,videoclub.group_videoclub_manager"/>
+
+  </data>
+</odoo>

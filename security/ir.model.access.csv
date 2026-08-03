@@ -1,0 +1,17 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_videoclub_genre_user_read,videoclub.genre,model_videoclub_genre,base.group_user,1,0,0,0
+access_videoclub_movie_user_read,videoclub.movie,model_videoclub_movie,base.group_user,1,0,0,0
+access_videoclub_tape_user_read,videoclub.tape,model_videoclub_tape,base.group_user,1,0,0,0
+access_videoclub_director_user_read,videoclub.director,model_videoclub_director,base.group_user,1,0,0,0
+access_videoclub_genre_client,videoclub.genre,model_videoclub_genre,videoclub.group_videoclub_client,1,0,0,0
+access_videoclub_movie_client,videoclub.movie,model_videoclub_movie,videoclub.group_videoclub_client,1,0,0,0
+access_videoclub_tape_client,videoclub.tape,model_videoclub_tape,videoclub.group_videoclub_client,1,1,0,0
+access_videoclub_director_client,videoclub.director,model_videoclub_director,videoclub.group_videoclub_client,1,0,0,0
+access_videoclub_genre_manager,videoclub.genre,model_videoclub_genre,videoclub.group_videoclub_manager,1,1,1,1
+access_videoclub_movie_manager,videoclub.movie,model_videoclub_movie,videoclub.group_videoclub_manager,1,1,1,1
+access_videoclub_tape_manager,videoclub.tape,model_videoclub_tape,videoclub.group_videoclub_manager,1,1,1,1
+access_videoclub_director_manager,videoclub.director,model_videoclub_director,videoclub.group_videoclub_manager,1,1,1,1
+access_videoclub_rental_client,videoclub.rental,model_videoclub_rental,videoclub.group_videoclub_client,1,1,1,1
+access_videoclub_rental_manager,videoclub.rental,model_videoclub_rental,videoclub.group_videoclub_manager,1,1,1,1
+access_videoclub_movie_wizard_client,videoclub.movie_wizard,model_videoclub_movie_wizard,videoclub.group_videoclub_client,1,1,1,0
+access_videoclub_movie_wizard_manager,videoclub.movie_wizard,model_videoclub_movie_wizard,videoclub.group_videoclub_manager,1,1,1,1

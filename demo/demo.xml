@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+    <!-- ========================================================= -->
+    <!-- GENRES                                                   -->
+    <!-- ========================================================= -->
+    <record id="genre_action" model="videoclub.genre">
+      <field name="name">Action</field>
+      <field name="color">1</field>
+    </record>
+    <record id="genre_comedy" model="videoclub.genre">
+      <field name="name">Comedy</field>
+      <field name="color">2</field>
+    </record>
+    <record id="genre_drama" model="videoclub.genre">
+      <field name="name">Drama</field>
+      <field name="color">3</field>
+    </record>
+    <record id="genre_scifi" model="videoclub.genre">
+      <field name="name">Sci-Fi</field>
+      <field name="color">4</field>
+    </record>
+    <record id="genre_horror" model="videoclub.genre">
+      <field name="name">Horror</field>
+      <field name="color">5</field>
+    </record>
+    <record id="genre_crime" model="videoclub.genre">
+      <field name="name">Crime</field>
+      <field name="color">6</field>
+    </record>
+
+    <!-- ========================================================= -->
+    <!-- DIRECTORS                                                 -->
+    <!-- ========================================================= -->
+    <record id="director_nolan" model="videoclub.director">
+      <field name="name">Christopher Nolan</field>
+      <field name="nationality">British</field>
+    </record>
+    <record id="director_coppola" model="videoclub.director">
+      <field name="name">Francis Ford Coppola</field>
+      <field name="nationality">American</field>
+    </record>
+    <record id="director_ramis" model="videoclub.director">
+      <field name="name">Harold Ramis</field>
+      <field name="nationality">American</field>
+    </record>
+    <record id="director_scott" model="videoclub.director">
+      <field name="name">Ridley Scott</field>
+      <field name="nationality">British</field>
+    </record>
+    <record id="director_wachowski" model="videoclub.director">
+      <field name="name">The Wachowskis</field>
+      <field name="nationality">American</field>
+    </record>
+
+    <!-- ========================================================= -->
+    <!-- CUSTOMER USED FOR DEMO RENTALS                            -->
+    <!-- ========================================================= -->
+    <record id="demo_customer" model="res.partner">
+      <field name="name">Demo Client</field>
+    </record>
+
+    <!-- Demo user with the Client role for testing the application -->
+    <record id="user_demo_client" model="res.users">
+      <field name="login">client</field>
+      <field name="password">client1234</field>
+      <field name="partner_id" ref="demo_customer"/>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="company_ids" eval="[(6, 0, [ref('base.main_company')])]"/>
+      <field name="groups_id" eval="[(4, ref('videoclub.group_videoclub_client'))]"/>
+    </record>
+
+    <!-- ========================================================= -->
+    <!-- MOVIES AND TAPES                                          -->
+    <!-- ========================================================= -->
+
+    <!-- Inception: 4 tapes -->
+    <record id="movie_inception" model="videoclub.movie">
+      <field name="name">Inception</field>
+      <field name="director_id" ref="director_nolan"/>
+      <field name="genre_ids" eval="[(4, ref('genre_action')), (4, ref('genre_scifi'))]"/>
+    </record>
+    <record id="tape_inception_1" model="videoclub.tape">
+      <field name="movie_id" ref="movie_inception"/>
+    </record>
+    <record id="tape_inception_2" model="videoclub.tape">
+      <field name="movie_id" ref="movie_inception"/>
+    </record>
+    <record id="tape_inception_3" model="videoclub.tape">
+      <field name="movie_id" ref="movie_inception"/>
+    </record>
+    <record id="tape_inception_4" model="videoclub.tape">
+      <field name="movie_id" ref="movie_inception"/>
+    </record>
+
+    <!-- The Godfather : 3 tapes -->
+    <record id="movie_godfather" model="videoclub.movie">
+      <field name="name">The Godfather</field>
+      <field name="director_id" ref="director_coppola"/>
+      <field name="genre_ids" eval="[(4, ref('genre_drama')), (4, ref('genre_crime'))]"/>
+    </record>
+    <record id="tape_godfather_1" model="videoclub.tape">
+      <field name="movie_id" ref="movie_godfather"/>
+      <field name="state">rented</field>
+    </record>
+    <record id="tape_godfather_2" model="videoclub.tape">
+      <field name="movie_id" ref="movie_godfather"/>
+    </record>
+    <record id="tape_godfather_3" model="videoclub.tape">
+      <field name="movie_id" ref="movie_godfather"/>
+    </record>
+
+    <!-- Groundhog Day : 2 tapes -->
+    <record id="movie_groundhog" model="videoclub.movie">
+      <field name="name">Groundhog Day</field>
+      <field name="director_id" ref="director_ramis"/>
+      <field name="genre_ids" eval="[(4, ref('genre_comedy'))]"/>
+    </record>
+    <record id="tape_groundhog_1" model="videoclub.tape">
+      <field name="movie_id" ref="movie_groundhog"/>
+    </record>
+
+    <!-- Alien : 5 tapes -->
+    <record id="movie_alien" model="videoclub.movie">
+      <field name="name">Alien</field>
+      <field name="director_id" ref="director_scott"/>
+      <field name="genre_ids" eval="[(4, ref('genre_scifi')), (4, ref('genre_horror'))]"/>
+    </record>
+    <record id="tape_alien_1" model="videoclub.tape">
+      <field name="movie_id" ref="movie_alien"/>
+    </record>
+    <record id="tape_alien_2" model="videoclub.tape">
+      <field name="movie_id" ref="movie_alien"/>
+    </record>
+    <record id="tape_alien_3" model="videoclub.tape">
+      <field name="movie_id" ref="movie_alien"/>
+    </record>
+    <record id="tape_alien_4" model="videoclub.tape">
+      <field name="movie_id" ref="movie_alien"/>
+    </record>
+    <record id="tape_alien_5" model="videoclub.tape">
+      <field name="movie_id" ref="movie_alien"/>
+    </record>
+
+    <!-- The Matrix : 2 tapes -->
+    <record id="movie_matrix" model="videoclub.movie">
+      <field name="name">The Matrix</field>
+      <field name="director_id" ref="director_wachowski"/>
+      <field name="genre_ids" eval="[(4, ref('genre_action')), (4, ref('genre_scifi'))]"/>
+    </record>
+    <record id="tape_matrix_1" model="videoclub.tape">
+      <field name="movie_id" ref="movie_matrix"/>
+    </record>
+    <record id="tape_matrix_2" model="videoclub.tape">
+      <field name="movie_id" ref="movie_matrix"/>
+    </record>
+
+    <!-- ========================================================= -->
+    <!-- SAMPLE RENTALS                                            -->
+    <!-- ========================================================= -->
+    <!-- One tape of The Godfather currently rented by the demo client -->
+    <record id="rental_godfather" model="videoclub.rental">
+      <field name="tape_id" ref="tape_godfather_1"/>
+      <field name="customer_id" ref="demo_customer"/>
+      <field name="rental_date">2026-07-28</field>
+      <field name="expected_return_date">2026-08-04</field>
+      <field name="state">active</field>
+    </record>
+
+    <!-- A returned rental on an Alien tape -->
+    <record id="rental_alien_returned" model="videoclub.rental">
+      <field name="tape_id" ref="tape_alien_1"/>
+      <field name="customer_id" ref="demo_customer"/>
+      <field name="rental_date">2026-07-20</field>
+      <field name="expected_return_date">2026-07-27</field>
+      <field name="actual_return_date">2026-07-26</field>
+      <field name="state">returned</field>
+    </record>
+
+  </data>
+</odoo>
