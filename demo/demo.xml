@@ -2,9 +2,6 @@
 <odoo>
   <data>
 
-    <!-- ========================================================= -->
-    <!-- GENRES                                                   -->
-    <!-- ========================================================= -->
     <record id="genre_action" model="videoclub.genre">
       <field name="name">Action</field>
       <field name="color">1</field>
@@ -30,9 +27,6 @@
       <field name="color">6</field>
     </record>
 
-    <!-- ========================================================= -->
-    <!-- DIRECTORS                                                 -->
-    <!-- ========================================================= -->
     <record id="director_nolan" model="videoclub.director">
       <field name="name">Christopher Nolan</field>
       <field name="nationality">British</field>
@@ -54,9 +48,6 @@
       <field name="nationality">American</field>
     </record>
 
-    <!-- ========================================================= -->
-    <!-- CUSTOMER USED FOR DEMO RENTALS                            -->
-    <!-- ========================================================= -->
     <record id="demo_customer" model="res.partner">
       <field name="name">Demo Client</field>
     </record>
@@ -71,11 +62,6 @@
       <field name="groups_id" eval="[(4, ref('videoclub.group_videoclub_client'))]"/>
     </record>
 
-    <!-- ========================================================= -->
-    <!-- MOVIES AND TAPES                                          -->
-    <!-- ========================================================= -->
-
-    <!-- Inception: 4 tapes -->
     <record id="movie_inception" model="videoclub.movie">
       <field name="name">Inception</field>
       <field name="director_id" ref="director_nolan"/>
@@ -156,10 +142,6 @@
       <field name="movie_id" ref="movie_matrix"/>
     </record>
 
-    <!-- ========================================================= -->
-    <!-- SAMPLE RENTALS                                            -->
-    <!-- ========================================================= -->
-    <!-- One tape of The Godfather currently rented by the demo client -->
     <record id="rental_godfather" model="videoclub.rental">
       <field name="tape_id" ref="tape_godfather_1"/>
       <field name="customer_id" ref="demo_customer"/>
@@ -168,7 +150,6 @@
       <field name="state">active</field>
     </record>
 
-    <!-- A returned rental on an Alien tape -->
     <record id="rental_alien_returned" model="videoclub.rental">
       <field name="tape_id" ref="tape_alien_1"/>
       <field name="customer_id" ref="demo_customer"/>
