@@ -61,19 +61,19 @@ class VideoclubMovie(models.Model):
             else:
                 movie.rent_state = 'unavailable'
 
-    def action_rent_movie(self, expected_return_date=None):
+    def action_rent_movie(self):
         # Creates an active rental for an available tape of the current partner.
         partner = self.env.user.partner_id
         rental_date = fields.Date.context_today(self)
         for movie in self:
-            tape = movie.tapes_ids.filtered(lambda item: item.state == 'available')[:1]
+            tape = movie.tapes_ids.filtered(lambda item: item.state == 'available')[:1] #Avoid IndexError if no available tapes
             if not tape:
                 continue
             self.env['videoclub.rental'].create({
                 'tape_id': tape.id,
                 'customer_id': partner.id,
                 'rental_date': rental_date,
-                'expected_return_date': expected_return_date or rental_date + timedelta(days=7),
+                'expected_return_date': rental_date + timedelta(days=7),
             })
             tape.state = 'rented'
         return True

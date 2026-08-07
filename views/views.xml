@@ -1,9 +1,7 @@
 <odoo>
   <data>
 
-    <!-- ========================================================= -->
-    <!-- ACTIONS                                                  -->
-    <!-- ========================================================= -->
+    <!-- ACTIONS -->
 
     <record id="action_videoclub_movie" model="ir.actions.act_window">
       <field name="name">Movies</field>
@@ -31,9 +29,7 @@
       <field name="target">new</field>
     </record>
 
-    <!-- ========================================================= -->
-    <!-- MOVIE SEARCH WIZARD VIEW                                  -->
-    <!-- ========================================================= -->
+    <!-- MOVIE SEARCH WIZARD VIEW -->
 
     <record id="videoclub_movie_wizard_form" model="ir.ui.view">
       <field name="name">videoclub_movie_wizard_form</field>
@@ -51,23 +47,34 @@
       </field>
     </record>
 
-    <!-- ========================================================= -->
-    <!-- MOVIE VIEWS                                              -->
-    <!-- ========================================================= -->
+    <!-- MOVIE VIEWS -->
 
     <record id="videoclub_movie_tree" model="ir.ui.view">
       <field name="name">videoclub_movie_tree</field>
       <field name="model">videoclub.movie</field>
       <field name="arch" type="xml">
-      <tree string="Movies">
-          <field name="name"/>
-          <field name="director_id"/>
-          <field name="num_available"/>
-          <field name="availability_date"/>
-          <field name="rent_state" widget="badge"/>
-          <button name="action_manage" string="Gestionar" type="object"
-                  icon="fa-hand-o-right"/>
-        </tree>
+          <tree string="Movies">
+              <field name="name"/>
+              <field name="director_id"/>
+              <field name="num_available"/>
+              <field name="availability_date"/>
+              <field name="rent_state" widget="badge"
+                    decoration-danger="rent_state == 'unavailable'" 
+                    decoration-success="rent_state == 'rent'" 
+                    decoration-warning="rent_state == 'return'"/>
+
+              <button name="action_manage" 
+                      string="Alquilar" 
+                      type="object"
+                      icon="fa-shopping-cart"
+                      attrs="{'invisible': [('rent_state', '!=', 'rent')]}"/>
+
+              <button name="action_manage" 
+                      string="Devolver" 
+                      type="object"
+                      icon="fa-undo"
+                      attrs="{'invisible': [('rent_state', '!=', 'return')]}"/>
+          </tree>
       </field>
     </record>
 
@@ -76,10 +83,6 @@
       <field name="model">videoclub.movie</field>
       <field name="arch" type="xml">
         <form>
-          <header>
-            <button name="action_manage" string="Gestionar" type="object"
-                    class="btn-primary"/>
-          </header>
           <sheet>
             <group>
               <group>
@@ -90,7 +93,24 @@
                 <field name="num_tapes"/>
                 <field name="num_available"/>
                 <field name="availability_date"/>
-                <field name="rent_state"/>
+                <field name="rent_state" invisible="1"/>
+                <label for="action_manage" string="Rent action"/>
+                <div>
+                    <button name="action_manage" 
+                            string="Alquilar" 
+                            type="object" 
+                            class="btn btn-primary" 
+                            attrs="{'invisible': [('rent_state', '!=', 'rent')]}"/>
+                    <button name="action_manage" 
+                            string="Devolver" 
+                            type="object" 
+                            class="btn btn-secondary" 
+                            attrs="{'invisible': [('rent_state', '!=', 'return')]}"/>
+                    <span class="text-danger font-weight-bold" 
+                          attrs="{'invisible': [('rent_state', '!=', 'unavailable')]}">
+                        <i class="fa fa-exclamation-triangle"/> Not available
+                    </span>
+                </div>
               </group>
             </group>
             <group>
@@ -102,9 +122,7 @@
       </field>
     </record>
 
-    <!-- ========================================================= -->
-    <!-- TAPE VIEWS                                               -->
-    <!-- ========================================================= -->
+    <!-- TAPE VIEWS -->
 
     <record id="videoclub_tape_tree" model="ir.ui.view">
       <field name="name">videoclub_tape_tree</field>
@@ -141,9 +159,7 @@
       </field>
     </record>
 
-    <!-- ========================================================= -->
-    <!-- DIRECTOR VIEWS                                           -->
-    <!-- ========================================================= -->
+    <!-- DIRECTOR VIEWS -->
 
     <record id="videoclub_director_tree" model="ir.ui.view">
       <field name="name">videoclub_director_tree</field>
@@ -176,9 +192,7 @@
       </field>
     </record>
 
-    <!-- ========================================================= -->
-    <!-- MENU                                                     -->
-    <!-- ========================================================= -->
+    <!-- MENU -->
 
     <menuitem id="menu_videoclub_root" name="Video Club" sequence="10"
               groups="videoclub.group_videoclub_client,videoclub.group_videoclub_manager"/>
