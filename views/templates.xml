@@ -1,24 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-<!--
-        <template id="listing">
-          <ul>
-            <li t-foreach="objects" t-as="object">
-              <a t-attf-href="#{ root }/objects/#{ object.id }">
-                <t t-esc="object.display_name"/>
-              </a>
-            </li>
-          </ul>
-        </template>
-        <template id="object">
-          <h1><t t-esc="object.display_name"/></h1>
-          <dl>
-            <t t-foreach="object._fields" t-as="field">
-              <dt><t t-esc="field"/></dt>
-              <dd><t t-esc="object[field]"/></dd>
-            </t>
-          </dl>
-        </template>
--->
-    </data>
+    <template id="catalog" name="Video Club catalog">
+        <html>
+            <head>
+                <title>Video Club</title>
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <style>
+                    body { font-family: sans-serif; margin: 2rem; color: #333; }
+                    h1 { color: #7c3aed; }
+                    table { border-collapse: collapse; width: 100%; max-width: 800px; margin-top: 1rem; }
+                    th, td { border-bottom: 1px solid #ddd; padding: .6rem .8rem; text-align: left; }
+                    th { background: #f3f0ff; }
+                    button { cursor: pointer; padding: .35rem .8rem; border: 0; border-radius: 4px; color: #fff; }
+                    .alquilar { background: #16a34a; }
+                    .devolver { background: #d97706; }
+                    .no-disponible { background: #9ca3af; cursor: not-allowed; }
+                    .login { color: #7c3aed; }
+                </style>
+            </head>
+            <body>
+                <h1>Video Club</h1>
+                <p t-if="logged == False"><a class="login" href="/web/login">Inicia sesión</a> para alquilar películas.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Director</th>
+                            <th>Disponibles</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="movies" t-as="movie">
+                            <td><t t-esc="movie['name']"/></td>
+                            <td><t t-esc="movie['director'] or '—'"/></td>
+                            <td><t t-esc="movie['num_available']"/></td>
+                            <td>
+                                <form method="post" t-attf-action="/videoclub/manage/#{ movie['id' ]}">
+                                    <input type="hidden" name="csrf_token" t-att-value="csrf_token"/>
+                                    <button type="submit"
+                                            t-att-class="movie['state_label'][:5] == 'Devol' and 'devolver' or (movie['state_label'] == 'No disponible' and 'no-disponible' or 'alquilar')"
+                                            t-att-disabled="movie['state_label'] == 'No disponible' and 'disabled' or None">
+                                        <t t-esc="movie['state_label']"/>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </body>
+        </html>
+    </template>
 </odoo>

@@ -1,4 +1,8 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_videoclub_genre_public,videoclub.genre,model_videoclub_genre,base.group_public,1,0,0,0
+access_videoclub_movie_public,videoclub.movie,model_videoclub_movie,base.group_public,1,0,0,0
+access_videoclub_tape_public,videoclub.tape,model_videoclub_tape,base.group_public,1,0,0,0
+access_videoclub_director_public,videoclub.director,model_videoclub_director,base.group_public,1,0,0,0
 access_videoclub_genre_user_read,videoclub.genre,model_videoclub_genre,base.group_user,1,0,0,0
 access_videoclub_movie_user_read,videoclub.movie,model_videoclub_movie,base.group_user,1,0,0,0
 access_videoclub_tape_user_read,videoclub.tape,model_videoclub_tape,base.group_user,1,0,0,0

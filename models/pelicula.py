@@ -27,23 +27,30 @@ class VideoclubMovie(models.Model):
     @api.depends('tapes_ids.state', 'tapes_ids.rental_ids.state', 'tapes_ids.rental_ids.expected_return_date')
     def _compute_tape_stats(self):
         today = fields.Date.context_today(self)
+        can_read_rentals = self.env.su or self.env.user.has_group('videoclub.group_videoclub_client')
         for movie in self:
             tapes = movie.tapes_ids
             movie.num_tapes = len(tapes)
             movie.num_available = len(tapes.filtered(lambda tape: tape.state == 'available'))
 
-            active_rentals = tapes.rental_ids.filtered(lambda rental: rental.state == 'active')
-            dates = [date for date in active_rentals.mapped('expected_return_date') if date]
             if movie.num_available > 0:
                 movie.availability_date = today
-            else:
+            elif can_read_rentals:
+                active_rentals = tapes.rental_ids.filtered(lambda rental: rental.state == 'active')
+                dates = [date for date in active_rentals.mapped('expected_return_date') if date]
                 movie.availability_date = min(dates) if dates else False
+            else:
+                movie.availability_date = False
 
     @api.depends('tapes_ids.rental_ids.customer_id', 'tapes_ids.rental_ids.state')
     @api.depends_context('uid')
     def _compute_is_rented_by_me(self):
         partner = self.env.user.partner_id
+        can_read_rentals = self.env.su or self.env.user.has_group('videoclub.group_videoclub_client')
         for movie in self:
+            if not can_read_rentals:
+                movie.has_rented = False
+                continue
             rentals = movie.tapes_ids.rental_ids.filtered(
                 lambda rental: rental.customer_id.id == partner.id and rental.state == 'active'
             )
