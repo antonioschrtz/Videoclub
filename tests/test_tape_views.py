@@ -38,15 +38,12 @@ class TestTapeViews(TransactionCase):
         movie = self.env['videoclub.movie'].create({'name': 'Movie C'})
         tape = self.env['videoclub.tape'].create({'movie_id': movie.id, 'state': 'available'})
 
-        # Available tape and not rented -> show "Rent".
         self.assertEqual(movie.rent_state, 'rent')
 
-        # Rent it -> movie is rented by current user -> show "Return".
         movie.action_rent_movie()
         self.assertEqual(movie.rent_state, 'return')
         self.assertEqual(tape.state, 'rented')
 
-        # Return it -> back to available -> show "Rent".
         movie.action_return_movie()
         self.assertEqual(movie.rent_state, 'rent')
         self.assertEqual(tape.state, 'available')
