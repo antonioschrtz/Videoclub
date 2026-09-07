@@ -22,7 +22,7 @@
       <field name="comment">Full management of movies, tapes, directors and all rentals.</field>
     </record>
 
-    <record id="rule_videoclub_rental_client" model="ir.rule"> 
+    <record id="rule_videoclub_rental_client" model="ir.rule">
       <field name="name">Client: own rentals only</field>
       <field name="model_id" ref="model_videoclub_rental"/>
       <field name="groups" eval="[(4, ref('group_videoclub_client'))]"/>
