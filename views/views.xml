@@ -59,18 +59,18 @@
               <field name="num_available"/>
               <field name="availability_date"/>
               <field name="rent_state" widget="badge"
-                    decoration-danger="rent_state == 'unavailable'" 
-                    decoration-success="rent_state == 'rent'" 
+                    decoration-danger="rent_state == 'unavailable'"
+                    decoration-success="rent_state == 'rent'"
                     decoration-warning="rent_state == 'return'"/>
 
-              <button name="action_manage" 
-                      string="Alquilar" 
+              <button name="action_manage"
+                      string="Alquilar"
                       type="object"
                       icon="fa-shopping-cart"
                       attrs="{'invisible': [('rent_state', '!=', 'rent')]}"/>
 
-              <button name="action_manage" 
-                      string="Devolver" 
+              <button name="action_manage"
+                      string="Devolver"
                       type="object"
                       icon="fa-undo"
                       attrs="{'invisible': [('rent_state', '!=', 'return')]}"/>
@@ -88,6 +88,7 @@
               <group>
                 <field name="name"/>
                 <field name="director_id"/>
+                <field name="active"/>
               </group>
               <group>
                 <field name="num_tapes"/>
@@ -96,17 +97,17 @@
                 <field name="rent_state" invisible="1"/>
                 <label for="action_manage" string="Rent action"/>
                 <div>
-                    <button name="action_manage" 
-                            string="Alquilar" 
-                            type="object" 
-                            class="btn btn-primary" 
+                    <button name="action_manage"
+                            string="Alquilar"
+                            type="object"
+                            class="btn btn-primary"
                             attrs="{'invisible': [('rent_state', '!=', 'rent')]}"/>
-                    <button name="action_manage" 
-                            string="Devolver" 
-                            type="object" 
-                            class="btn btn-secondary" 
+                    <button name="action_manage"
+                            string="Devolver"
+                            type="object"
+                            class="btn btn-secondary"
                             attrs="{'invisible': [('rent_state', '!=', 'return')]}"/>
-                    <span class="text-danger font-weight-bold" 
+                    <span class="text-danger font-weight-bold"
                           attrs="{'invisible': [('rent_state', '!=', 'unavailable')]}">
                         <i class="fa fa-exclamation-triangle"/> Not available
                     </span>
