@@ -20,6 +20,21 @@ class VideoclubTape(models.Model):
 
     rental_ids = fields.One2many("videoclub.rental", "tape_id", string="Rental history")
 
+    current_customer_id = fields.Many2one(
+        "res.partner",
+        string="Currently rented by",
+        compute="_compute_current_customer",
+        store=False,
+    )
+
+    @api.depends("rental_ids.state", "rental_ids.customer_id")
+    def _compute_current_customer(self):
+        for tape in self:
+            # Find the first rental that is active
+            active_rental = next((rental for rental in tape.rental_ids if rental.state == "active"), False)
+            tape.current_customer_id = active_rental.customer_id if active_rental else False
+        
+
     @api.depends("rental_ids.state", "rental_ids.expected_return_date")
     def _compute_expected_return_date(self):
         # Shows the return deadline of the active rental, when rented.

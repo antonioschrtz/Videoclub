@@ -16,7 +16,11 @@
     "data": [
         "security/videoclub_groups.xml",
         "security/ir.model.access.csv",
-        "views/views.xml",
+        "views/menu.xml",
+        "views/movie.xml",
+        "views/tape.xml",
+        "views/director.xml",
+        "wizard/movie_wizard.xml",
         "views/templates.xml",
     ],
     "installable": True,

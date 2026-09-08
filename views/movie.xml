@@ -1,0 +1,95 @@
+<odoo>
+  <data>
+
+    <!-- ACTION -->
+
+    <record id="action_videoclub_movie" model="ir.actions.act_window">
+      <field name="name">Movies</field>
+      <field name="res_model">videoclub.movie</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- VIEWS -->
+
+    <record id="videoclub_movie_tree" model="ir.ui.view">
+      <field name="name">videoclub_movie_tree</field>
+      <field name="model">videoclub.movie</field>
+      <field name="arch" type="xml">
+          <tree string="Movies">
+              <field name="name"/>
+              <field name="director_id"/>
+              <field name="num_available"/>
+              <field name="availability_date"/>
+              <field name="rent_state" widget="badge"
+                    decoration-danger="rent_state == 'unavailable'"
+                    decoration-success="rent_state == 'rent'"
+                    decoration-warning="rent_state == 'return'"/>
+
+              <button name="action_manage"
+                      string="Alquilar"
+                      type="object"
+                      icon="fa-shopping-cart"
+                      attrs="{'invisible': [('rent_state', '!=', 'rent')]}"/>
+
+              <button name="action_manage"
+                      string="Devolver"
+                      type="object"
+                      icon="fa-undo"
+                      attrs="{'invisible': [('rent_state', '!=', 'return')]}"/>
+          </tree>
+      </field>
+    </record>
+
+    <record id="videoclub_movie_form" model="ir.ui.view">
+      <field name="name">videoclub_movie_form</field>
+      <field name="model">videoclub.movie</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <group>
+                <field name="name"/>
+                <field name="director_id"/>
+                <field name="active"/>
+              </group>
+              <group>
+                <field name="num_tapes"/>
+                <field name="num_available"/>
+                <field name="availability_date"/>
+                <field name="rent_state" invisible="1"/>
+                <label for="action_manage" string="Rent action"/>
+                <div>
+                    <button name="action_manage"
+                            string="Alquilar"
+                            type="object"
+                            class="btn btn-primary"
+                            attrs="{'invisible': [('rent_state', '!=', 'rent')]}"/>
+                    <button name="action_manage"
+                            string="Devolver"
+                            type="object"
+                            class="btn btn-secondary"
+                            attrs="{'invisible': [('rent_state', '!=', 'return')]}"/>
+                    <span class="text-danger font-weight-bold"
+                          attrs="{'invisible': [('rent_state', '!=', 'unavailable')]}">
+                        <i class="fa fa-exclamation-triangle"/> Not available
+                    </span>
+                </div>
+              </group>
+            </group>
+            <group>
+              <field name="genre_ids" widget="many2many_tags"/>
+              <field name="tapes_ids"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- MENU -->
+
+    <menuitem id="menu_videoclub_movie" name="Movies" parent="menu_videoclub_root"
+              action="action_videoclub_movie" sequence="10"
+              groups="videoclub.group_videoclub_client,videoclub.group_videoclub_manager"/>
+
+  </data>
+</odoo>

@@ -9,7 +9,9 @@ class VideoclubMovie(models.Model):
 
     name = fields.Char(string="Title", required=True)
     active = fields.Boolean(default=True)
-    director_id = fields.Many2one("videoclub.director", string="Director")
+    director_id = fields.Many2one(
+        "res.partner", string="Director", domain="[('is_director', '=', True)]"
+    )
     genre_ids = fields.Many2many("videoclub.genre", string="Genres")
     tapes_ids = fields.One2many("videoclub.tape", "movie_id", string="Tapes")
 

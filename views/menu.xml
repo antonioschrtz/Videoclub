@@ -1,0 +1,8 @@
+<odoo>
+  <data>
+
+    <menuitem id="menu_videoclub_root" name="Video Club" sequence="10"
+              groups="videoclub.group_videoclub_client,videoclub.group_videoclub_manager"/>
+
+  </data>
+</odoo>

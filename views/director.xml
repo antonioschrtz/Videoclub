@@ -1,0 +1,56 @@
+<odoo>
+  <data>
+
+    <!-- VIEWS -->
+
+    <record id="videoclub_director_tree" model="ir.ui.view">
+      <field name="name">videoclub_director_tree</field>
+      <field name="model">res.partner</field>
+      <field name="arch" type="xml">
+        <tree string="Directors">
+          <field name="name"/>
+          <field name="country_id"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="videoclub_director_form" model="ir.ui.view">
+      <field name="name">videoclub_director_form</field>
+      <field name="model">res.partner</field>
+      <field name="arch" type="xml">
+        <form string="Director">
+          <sheet>
+            <group>
+              <group>
+                <field name="name"/>
+                <field name="country_id"/>
+                <field name="is_director"/>
+              </group>
+              <group>
+                <field name="movie_ids"/>
+              </group>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- ACTION -->
+
+    <record id="action_videoclub_director" model="ir.actions.act_window">
+      <field name="name">Directors</field>
+      <field name="res_model">res.partner</field>
+      <field name="view_mode">tree,form</field>
+      <field name="domain">[('is_director', '=', True)]</field>
+      <field name="context">{'default_is_director': True}</field>
+      <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'tree', 'view_id': ref('videoclub_director_tree')}), (0, 0, {'view_mode': 'form', 'view_id': ref('videoclub_director_form')})]"/>
+    </record>
+
+    <!-- MENU -->
+
+    <menuitem id="menu_videoclub_director" name="Directors" parent="menu_videoclub_root"
+              action="action_videoclub_director" sequence="30"
+              groups="videoclub.group_videoclub_manager"/>
+
+  </data>
+</odoo>

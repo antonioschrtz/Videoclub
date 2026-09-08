@@ -1,0 +1,58 @@
+<odoo>
+  <data>
+
+    <!-- ACTION -->
+
+    <record id="action_videoclub_tape" model="ir.actions.act_window">
+      <field name="name">Tapes</field>
+      <field name="res_model">videoclub.tape</field>
+      <field name="view_mode">tree,form</field>
+      <field name="context">{'group_by': 'movie_id'}</field>
+    </record>
+
+    <!-- VIEWS -->
+
+    <record id="videoclub_tape_tree" model="ir.ui.view">
+      <field name="name">videoclub_tape_tree</field>
+      <field name="model">videoclub.tape</field>
+      <field name="arch" type="xml">
+        <tree editable="bottom">
+          <field name="movie_id"/>
+          <field name="state"/>
+          <field name="current_customer_id" optional="show"/>
+          <field name="expected_return_date" optional="show"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="videoclub_tape_form" model="ir.ui.view">
+      <field name="name">videoclub_tape_form</field>
+      <field name="model">videoclub.tape</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <group>
+                <field name="movie_id"/>
+                <field name="state"/>
+                <field name="expected_return_date"/>
+              </group>
+            </group>
+            <notebook>
+              <page string="Rental history" name="rentals">
+                <field name="rental_ids"/>
+              </page>
+            </notebook>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- MENU -->
+
+    <menuitem id="menu_videoclub_tape" name="Tapes" parent="menu_videoclub_root"
+              action="action_videoclub_tape" sequence="20"
+              groups="videoclub.group_videoclub_client,videoclub.group_videoclub_manager"/>
+
+  </data>
+</odoo>

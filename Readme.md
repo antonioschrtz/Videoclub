@@ -5,7 +5,7 @@ Este repositorio contiene un módulo personalizado desarrollado para **Odoo 15**
 ## 🚀 Características Principales
 
 El sistema está diseñado para gestionar el catálogo y el flujo de alquileres mediante los siguientes módulos lógicos:
-*   **Catálogo:** Gestión de películas (`videoclub.movie`), géneros (`videoclub.genre`) y directores (`videoclub.director`).
+*   **Catálogo:** Gestión de películas (`videoclub.movie`), géneros (`videoclub.genre`) y directores (partners de `res.partner` marcados con `is_director`).
 *   **Inventario:** Control del estado físico de las copias o cintas individuales (`videoclub.tape`).
 *   **Alquileres:** Registro del flujo de préstamos y devoluciones (`videoclub.rental`).
 *   **Seguridad (RBAC):** Roles definidos mediante Listas de Control de Acceso (ACLs) y Reglas de Registro (`ir.rule`):

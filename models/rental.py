@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -39,9 +39,9 @@ class VideoclubRental(models.Model):
                 lambda other: other.id != rental.id and other.tape_id.movie_id == movie
             ):
                 raise ValidationError(
-                    "A client cannot rent two tapes of the same movie at the same time."
+                    _("A client cannot rent two tapes of the same movie at the same time.")
                 )
             if len(active_rentals) > 3:
                 raise ValidationError(
-                    "A client cannot rent more than 3 tapes at the same time."
+                    _("A client cannot rent more than 3 tapes at the same time.")
                 )

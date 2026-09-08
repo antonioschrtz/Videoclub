@@ -26,8 +26,8 @@ class TestTapeViews(TransactionCase):
         self.assertEqual(tape.movie_id.id, movie.id)
 
     def test_movie_director_relation(self):
-        director = self.env["videoclub.director"].create(
-            {"name": "Director A", "nationality": "Spanish"}
+        director = self.env["res.partner"].create(
+            {"name": "Director A", "is_director": True}
         )
         movie = self.env["videoclub.movie"].create(
             {"name": "Movie B", "director_id": director.id}

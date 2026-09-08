@@ -27,25 +27,30 @@
       <field name="color">6</field>
     </record>
 
-    <record id="director_nolan" model="videoclub.director">
+    <record id="director_nolan" model="res.partner">
       <field name="name">Christopher Nolan</field>
-      <field name="nationality">British</field>
+      <field name="country_id" ref="base.uk"/>
+      <field name="is_director">True</field>
     </record>
-    <record id="director_coppola" model="videoclub.director">
+    <record id="director_coppola" model="res.partner">
       <field name="name">Francis Ford Coppola</field>
-      <field name="nationality">American</field>
+      <field name="country_id" ref="base.us"/>
+      <field name="is_director">True</field>
     </record>
-    <record id="director_ramis" model="videoclub.director">
+    <record id="director_ramis" model="res.partner">
       <field name="name">Harold Ramis</field>
-      <field name="nationality">American</field>
+      <field name="country_id" ref="base.us"/>
+      <field name="is_director">True</field>
     </record>
-    <record id="director_scott" model="videoclub.director">
+    <record id="director_scott" model="res.partner">
       <field name="name">Ridley Scott</field>
-      <field name="nationality">British</field>
+      <field name="country_id" ref="base.uk"/>
+      <field name="is_director">True</field>
     </record>
-    <record id="director_wachowski" model="videoclub.director">
+    <record id="director_wachowski" model="res.partner">
       <field name="name">The Wachowskis</field>
-      <field name="nationality">American</field>
+      <field name="country_id" ref="base.us"/>
+      <field name="is_director">True</field>
     </record>
 
     <record id="demo_customer" model="res.partner">
