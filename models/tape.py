@@ -6,6 +6,7 @@ class VideoclubTape(models.Model):
     _description = "Movie tape"
 
     movie_id = fields.Many2one("videoclub.movie", string="Movie", ondelete="set null")
+    barcode = fields.Char(string="Barcode")
     state = fields.Selection(
         [("available", "Available"), ("rented", "Rented")],
         string="State",

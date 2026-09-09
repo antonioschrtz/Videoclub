@@ -24,7 +24,8 @@
               <group>
                 <field name="name"/>
                 <field name="country_id"/>
-                <field name="is_director"/>
+                <field name="is_director" groups="videoclub.group_videoclub_manager"/>
+                <field name="image_1920" widget="image" class="oe_avatar"/>
               </group>
               <group>
                 <field name="movie_ids"/>
@@ -49,8 +50,7 @@
     <!-- MENU -->
 
     <menuitem id="menu_videoclub_director" name="Directors" parent="menu_videoclub_root"
-              action="action_videoclub_director" sequence="30"
-              groups="videoclub.group_videoclub_manager"/>
+              action="action_videoclub_director" sequence="30"/>
 
   </data>
 </odoo>

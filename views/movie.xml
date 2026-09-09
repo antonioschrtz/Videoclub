@@ -50,12 +50,27 @@
               <group>
                 <field name="name"/>
                 <field name="director_id"/>
-                <field name="active"/>
+                <field name="active" groups="videoclub.group_videoclub_manager"/>
+                <field name="image" widget="image" class="oe_avatar"
+                       attrs="{'invisible': [('image', '=', False)]}"/>
+                <field name="director_image" widget="image" class="oe_avatar"
+                       string="Director image"
+                       groups="videoclub.group_videoclub_manager"/>
+                <field name="director_image" widget="image" class="oe_avatar"
+                       string="Director image"
+                       groups="videoclub.group_videoclub_client"
+                       attrs="{'invisible': [('director_image', '=', False)]}"/>
               </group>
               <group>
                 <field name="num_tapes"/>
                 <field name="num_available"/>
                 <field name="availability_date"/>
+                <field name="url_trailer" groups="videoclub.group_videoclub_manager"/>
+                <field name="qr_trailer" widget="image" class="oe_avatar"
+                       groups="videoclub.group_videoclub_manager"/>
+                <field name="qr_trailer" widget="image" class="oe_avatar"
+                       groups="videoclub.group_videoclub_client"
+                       attrs="{'invisible': [('qr_trailer', '=', False)]}"/>
                 <field name="rent_state" invisible="1"/>
                 <label for="action_manage" string="Rent action"/>
                 <div>
@@ -78,7 +93,7 @@
             </group>
             <group>
               <field name="genre_ids" widget="many2many_tags"/>
-              <field name="tapes_ids"/>
+              <field name="tapes_ids" groups="videoclub.group_videoclub_manager"/>
             </group>
           </sheet>
         </form>

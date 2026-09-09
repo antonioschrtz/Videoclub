@@ -1,3 +1,6 @@
+import qrcode
+import base64
+from io import BytesIO
 from datetime import timedelta
 
 from odoo import api, fields, models
@@ -9,8 +12,14 @@ class VideoclubMovie(models.Model):
 
     name = fields.Char(string="Title", required=True)
     active = fields.Boolean(default=True)
+    image = fields.Binary(string="Image", attachment=True)
+    url_trailer = fields.Char(string="Trailer URL")
+    qr_trailer = fields.Image(string="Trailer QR", compute="_compute_qr_image")
     director_id = fields.Many2one(
         "res.partner", string="Director", domain="[('is_director', '=', True)]"
+    )
+    director_image = fields.Binary(
+        string="Director image", related="director_id.image_1920", readonly=True
     )
     genre_ids = fields.Many2many("videoclub.genre", string="Genres")
     tapes_ids = fields.One2many("videoclub.tape", "movie_id", string="Tapes")
@@ -38,6 +47,22 @@ class VideoclubMovie(models.Model):
         compute="_compute_rent_state",
         store=False,
     )
+
+    @api.depends('url_trailer')
+    def _compute_qr_image(self):
+        for record in self:
+            if record.url_trailer:
+                qr = qrcode.QRCode(version=1, box_size=4, border=4)
+                qr.add_data(record.url_trailer)
+                qr.make(fit=True)
+                img = qr.make_image(fill_color="black", back_color="white")
+                
+                temp = BytesIO()
+                img.save(temp, format="PNG")
+                qr_img = base64.b64encode(temp.getvalue())
+                record.qr_trailer = qr_img
+            else:
+                record.qr_trailer = False
 
     @api.depends(
         "tapes_ids.state",
