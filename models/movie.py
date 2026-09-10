@@ -1,9 +1,10 @@
-import qrcode
 import base64
-from io import BytesIO
 from datetime import timedelta
 
 from odoo import api, fields, models
+from reportlab.graphics.barcode.qr import QrCodeWidget
+from reportlab.graphics.shapes import Drawing
+from reportlab.graphics import renderSVG
 
 
 class VideoclubMovie(models.Model):
@@ -14,7 +15,8 @@ class VideoclubMovie(models.Model):
     active = fields.Boolean(default=True)
     image = fields.Binary(string="Image", attachment=True)
     url_trailer = fields.Char(string="Trailer URL")
-    qr_trailer = fields.Image(string="Trailer QR", compute="_compute_qr_image")
+    qr_trailer = fields.Binary(string="Trailer QR", compute="_compute_qr_image", attachment=True, store=True)
+    qr_trailer_filename = fields.Char(string="Trailer QR filename", compute="_compute_qr_image", store=True)
     director_id = fields.Many2one(
         "res.partner", string="Director", domain="[('is_director', '=', True)]"
     )
@@ -50,19 +52,32 @@ class VideoclubMovie(models.Model):
 
     @api.depends('url_trailer')
     def _compute_qr_image(self):
+        size = 250
         for record in self:
             if record.url_trailer:
-                qr = qrcode.QRCode(version=1, box_size=4, border=4)
-                qr.add_data(record.url_trailer)
-                qr.make(fit=True)
-                img = qr.make_image(fill_color="black", back_color="white")
-                
-                temp = BytesIO()
-                img.save(temp, format="PNG")
-                qr_img = base64.b64encode(temp.getvalue())
-                record.qr_trailer = qr_img
+                try:
+                    # Generación del QR como SVG con reportlab (ya es una
+                    # dependencia de Odoo, no se añade ninguna librería nueva).
+                    qr_widget = QrCodeWidget(record.url_trailer)
+                    x1, y1, x2, y2 = qr_widget.getBounds()
+                    qr_width, qr_height = x2 - x1, y2 - y1
+ 
+                    drawing = Drawing(
+                        size,
+                        size,
+                        transform=[size / qr_width, 0, 0, size / qr_height, 0, 0],
+                    )
+                    drawing.add(qr_widget)
+ 
+                    svg_data = renderSVG.drawToString(drawing).encode()
+                    record.qr_trailer = base64.b64encode(svg_data)
+                    record.qr_trailer_filename = f"{record.name or 'trailer'}_qr.svg"
+                except Exception:
+                    record.qr_trailer = False
+                    record.qr_trailer_filename = False
             else:
                 record.qr_trailer = False
+                record.qr_trailer_filename = False
 
     @api.depends(
         "tapes_ids.state",

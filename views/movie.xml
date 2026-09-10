@@ -58,7 +58,7 @@
                        groups="videoclub.group_videoclub_manager"/>
                 <field name="director_image" widget="image" class="oe_avatar"
                        string="Director image"
-                       groups="videoclub.group_videoclub_client"
+                       groups="!videoclub.group_videoclub_manager"
                        attrs="{'invisible': [('director_image', '=', False)]}"/>
               </group>
               <group>
@@ -69,7 +69,7 @@
                 <field name="qr_trailer" widget="image" class="oe_avatar"
                        groups="videoclub.group_videoclub_manager"/>
                 <field name="qr_trailer" widget="image" class="oe_avatar"
-                       groups="videoclub.group_videoclub_client"
+                       groups="!videoclub.group_videoclub_manager"
                        attrs="{'invisible': [('qr_trailer', '=', False)]}"/>
                 <field name="rent_state" invisible="1"/>
                 <label for="action_manage" string="Rent action"/>
